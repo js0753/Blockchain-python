@@ -114,7 +114,7 @@ def verify_transaction(tr):
     block_pointer=last_block_hash
     #print(block_pointer)
     signed_amount=tr.signed_amt
-    print(sender)
+    #print(sender)
     with open("sender_pbk.pem","wb") as f:
             f.write(bytes(sender,encoding='utf8'))
     with open("signed_amt.txt","wb") as f:
@@ -194,13 +194,14 @@ if __name__=="__main__":
             with open(miner_key,"rb") as f:
                 mk=f.read()
             d=0
+            verified_transactions=[]
             while(d==0):
                 
                 #"""
                 try:
                     th=input("Enter Hash of transaction to confirm :\n")
                     tr=unconfirmed_transactions[th] 
-                    verified_transactions=[]
+                    
                     verified=verify_transaction(tr)
                     if(verified==1):
                         tr.confirm_status="confirmed"
@@ -222,6 +223,7 @@ if __name__=="__main__":
                 print("\n-------------------Start of Block----------------------------------\n")
                 print("Block Hash : \n",block_chain[i].block_hash)
                 print("\nMiner : \n",block_chain[i].miner)
+                print("\nDate-Time : ",block_chain[i].timestamp)
                 print("\nNo of transactions : ",block_chain[i].no_of_transactions)
                 print("\nNonce : ",block_chain[i].nonce)
                 tvol=0
@@ -234,10 +236,10 @@ if __name__=="__main__":
                 for j in range(block_chain[i].no_of_transactions):
                     print("\n     --------------Transaction Start-----------------------------\n")
                     print("     Index : ",j)
-                    print("     Transaction Hash : ",block_chain[i].transactions[j].transaction_hash)
-                    print("\n     Sender : \n       ",block_chain[i].transactions[j].sender_pbk)
-                    print("\n     Reciever : \n       ",block_chain[i].transactions[j].reciever_pbk)
-                    print("\n     Amount : ",block_chain[i].transactions[j].amount)
+                    print("Transaction Hash : ",block_chain[i].transactions[j].transaction_hash)
+                    print("\nSender : \n",block_chain[i].transactions[j].sender_pbk)
+                    print("\nReciever : \n",block_chain[i].transactions[j].reciever_pbk)
+                    print("\nAmount : ",block_chain[i].transactions[j].amount)
                     print("\n     ---------------Transaction End----------------------------\n")
                 print("\n-------------------End of Block------------------------\n")
 
